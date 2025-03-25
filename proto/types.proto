@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option go_package = "github.com/ssssunat/blocker/proto";
+
+message Block {
+	Header header = 1;
+	repeated Transaction transactions = 2;
+}
+
+message Header {
+	int32 version = 1;
+	int32 height = 2;
+	bytes pervHash = 3;
+	bytes rootHash = 4; //merkle root of txs
+	int64 timestamp = 5;
+}
+
+message TxInput {
+	// previous hash of the transation containing
+	// the output we want to spend.
+	bytes prevTxHash = 1;
+	// the index of the output  of the previous transaction we
+	// want to spend.
+	uint32 prevOutIndex = 2;
+
+	bytes publicKey = 3;
+	bytes signature = 4;
+}
+
+message TxOutput {
+	uint64 amount = 1;
+	bytes address = 2;
+}
+
+message Transaction {
+	int32 version = 1;
+	repeated TxInput inputs = 2;
+	repeated TxOutput output = 3;
+}
